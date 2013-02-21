@@ -2,11 +2,12 @@
 ### FLAGS ###
 # CFLAGS - additional cflags to pass to the compiler
 ####################################################
+INCLUDES = -I../include
 OBJS = ArchitectureDetection.o OSDetection.o \
 		 HardwareDetection.o Platform.o
 
 .c.o :
-	$(CC) -c $(CFLAGS) -DLINUX -DALLOW_ENVIRONMENT_GLOBALS=0 -std=c99 -Wall -Wundef -Wpointer-arith -Wshadow -Wcast-qual \
+	$(CC) -c $(CFLAGS) $(INCLUDES) -DLINUX -DALLOW_ENVIRONMENT_GLOBALS=0 -std=c99 -Wall -Wundef -Wpointer-arith -Wshadow -Wcast-qual \
 	    -Wcast-align -Winline -Wmissing-declarations -Wredundant-decls \
 	    -Woverloaded-virtual -Wmissing-prototypes -Wnested-externs \
 	    -Wstrict-prototypes -Waggregate-return -Wno-implicit $<
@@ -14,13 +15,13 @@ OBJS = ArchitectureDetection.o OSDetection.o \
 .PHONY: all
 all: $(OBJS)
 
-ArchitectureDetection.o: ArchitectureDetection.c ArchitectureDetection.h
+ArchitectureDetection.o: ArchitectureDetection.c 
 
-OSDetection.o: OSDetection.c OSDetection.h
+OSDetection.o: OSDetection.c 
 
-HardwareDetection.o: HardwareDetection.c HardwareDetection.h
+HardwareDetection.o: HardwareDetection.c 
 
-Platform.o: Platform.c Platform.h
+Platform.o: Platform.c 
 
 .PHONY: clean
 clean:

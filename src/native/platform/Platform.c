@@ -25,10 +25,10 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "Platform.h"
-#include "ArchitectureDetection.h"
-#include "OSDetection.h"
-#include "HardwareDetection.h"
+#include "platform/Platform.h"
+#include "platform/ArchitectureDetection.h"
+#include "platform/OSDetection.h"
+#include "platform/HardwareDetection.h"
 
 extern void PlatformDetectionFunctionDefinitions(void* theEnv) {
 //call all of the platform functions 

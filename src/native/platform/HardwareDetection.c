@@ -24,8 +24,8 @@ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
-#include "../clips.h"
-#include "HardwareDetection.h"
+#include "clips.h"
+#include "platform/HardwareDetection.h"
 #if defined(__APPLE__)
 #include "TargetConditionals.h"
 #endif
