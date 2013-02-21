@@ -14,6 +14,7 @@ OBJS = ArchitectureDetection.o OSDetection.o \
 
 .PHONY: all
 all: $(OBJS)
+	$(AR) $(ARFLAGS) adventure-engine-platform.a $(OBJS)
 
 ArchitectureDetection.o: ArchitectureDetection.c 
 
@@ -25,4 +26,4 @@ Platform.o: Platform.c
 
 .PHONY: clean
 clean:
-	rm -f *.o
+	rm -f *.o adventure-engine-platform.a
