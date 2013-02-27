@@ -19,10 +19,11 @@
 (defmodule virtual-machine
            (import cortex ?ALL)
            (export ?ALL))
+(defmodule game-startup
+           (import cortex ?ALL)
+           (export ?ALL))
+(batch* "game/types/Loader.clp")
 ; More files and other such things will go here
 (batch* "game/OpcodeDeclaration.clp")
 (batch* "game/VirtualMachine.clp")
 
-(defmodule game-startup
-           (import cortex ?ALL)
-           (export ?ALL))
