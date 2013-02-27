@@ -16,10 +16,7 @@
 ;Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 ;The Virtual Machine that interprets opcodes
-(defmodule virtual-machine
-           (import cortex ?ALL)
-           (export ?ALL))
-(defmodule game-startup
+(defmodule another-world
            (import cortex ?ALL)
            (export ?ALL))
 (batch* "game/types/Loader.clp")
