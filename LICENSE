@@ -26,3 +26,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ===================
 The CLIPS source code is licensed under a separate license which is found in
 src/native/LICENSE.
+
+===================
+The game expert system is licensed under the GPLv2 which can be found in
+src/game/COPYING

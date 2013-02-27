@@ -1,15 +1,8 @@
-The adventure engine is a back end system for handling adventure games. As with
-most of my modern works the code uses an expert system to do the dirty work.
-This is because the expert system makes different aspects of the adventure game
-easy to do. 
-
-This includes inventory management, combination, and character interaction. All
-of the information used to keep track of this information can be easily kept
-track of through the use of facts and instances within the expert system. The
-only part that has to be handled outside the expert system is things such as
-input handling, sound playing, and drawing to the screen. 
-
-The src folder contains the C source code that clips interacts with. The game
-folder contains all of the types and game logic that are written within CLIPS
+This branch of the adventure engine is specifically for the virtual machine
+that powers the game Another World. I have licensed all code specific to this
+branch under the GPLv2 since I am implementing the VM based off of the C++ code
+found at https://github.com/fabiensanglard/Another-World-Bytecode-Interpreter
 
 
+This is a test of the adventure engine to see how plausible (and efficient) it
+is to implement a virtual machine as an expert system.
