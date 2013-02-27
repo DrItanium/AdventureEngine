@@ -1,3 +1,4 @@
+;------------------------------------------------------------------------------
 ;Another World Expert System Virtual Machine Implementation
 ;Copyright (C) 2013 Joshua Scoggins 
 ;
@@ -15,12 +16,17 @@
 ;along with this program; if not, write to the Free Software
 ;Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 ;------------------------------------------------------------------------------
-; Loader for all the different types
+; Definition of the Polygon Type 
 ; Written by Joshua Scoggins
-;
-; This is loaded ahead of the rules to make sure that the RETE network will
-; evaluate all types correctly. If a rule is defined before a subtype is
-; defined then the rule will not match against it.
 ;------------------------------------------------------------------------------
-(load* "game/types/Polygon.clp")
+(defclass another-world::Polygon 
+  (is-a Object)
+  (slot max-points 
+        (type INTEGER)
+        (storage shared) 
+        (access read-only) 
+        (default 50))
+  )
+
+
 
