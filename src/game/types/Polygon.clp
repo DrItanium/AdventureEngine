@@ -20,13 +20,24 @@
 ; Written by Joshua Scoggins
 ;------------------------------------------------------------------------------
 (defclass another-world::Polygon 
+  "Represents a polygon in the world"
   (is-a Object)
   (slot max-points 
         (type INTEGER)
         (storage shared) 
         (access read-only) 
         (default 50))
-  )
-
-
-
+  (slot bounding-box-width 
+        (type INTEGER) 
+        (range 0 ?VARIABLE))
+  (slot bounding-box-height 
+        (type INTEGER) 
+        (range 0 ?VARIABLE))
+  (slot num-points 
+        (type INTEGER) 
+        (range 0 256))
+  (multislot points 
+             (type SYMBOL INSTANCE) 
+             (cardinality 0 50))
+  (message-handler read-vertices primary))
+;------------------------------------------------------------------------------
