@@ -20,7 +20,8 @@
            (import cortex ?ALL)
            (export ?ALL))
 ; More files and other such things will go here
-(batch* "game/vm/VirtualMachine.clp")
+(batch* "game/OpcodeDeclaration.clp")
+(batch* "game/VirtualMachine.clp")
 
 (defmodule game-startup
            (import cortex ?ALL)
