@@ -25,4 +25,5 @@
 (load* "game/types/Polygon.clp")
 (load* "game/types/StringEntry.clp")
 (load* "game/types/Point.clp")
+(load* "game/types/SystemPointer.clp")
 
