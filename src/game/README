@@ -1,2 +1,4 @@
-This folder will eventually contain a simple game used as an example for how to
-use the adventure engine.
+This bytecode intepreter for another-world is an expert system reimplementation
+of the Another-World-Bytecode-Interpreter. I am using that code base as a guide
+but due to the nature of the expert system, I will have to do some things
+differently.
