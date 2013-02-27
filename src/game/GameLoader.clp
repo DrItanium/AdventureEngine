@@ -21,3 +21,7 @@
            (export ?ALL))
 ; More files and other such things will go here
 (batch* "game/vm/VirtualMachine.clp")
+
+(defmodule game-startup
+           (import cortex ?ALL)
+           (export ?ALL))
