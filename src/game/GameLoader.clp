@@ -17,7 +17,7 @@
 
 ;The Virtual Machine that interprets opcodes
 (defmodule virtual-machine
-           (import MAIN ?ALL)
            (import cortex ?ALL)
            (export ?ALL))
 ; More files and other such things will go here
+(batch* "game/vm/VirtualMachine.clp")
