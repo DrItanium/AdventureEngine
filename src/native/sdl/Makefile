@@ -2,7 +2,7 @@
 ### FLAGS ###
 # CFLAGS - additional cflags to pass to the compiler
 ####################################################
-OBJS = SDLInterface.o SDLAudio.o
+OBJS = SDLInterface.o SDLAudio.o SDLThreading.o
 
 .c.o :
 	$(CC) -c $(CFLAGS) -std=c99 -Wall -Wundef -Wpointer-arith -Wshadow -Wcast-qual \
@@ -13,9 +13,11 @@ OBJS = SDLInterface.o SDLAudio.o
 .PHONY: all
 all: $(OBJS)
 
-SDLInterface.o: SDLInterface.c SDLAudio.h SDLInterface.h
+SDLInterface.o: SDLInterface.c SDLAudio.h SDLThreading.h SDLInterface.h
 
 SDLAudio.o: SDLAudio.c SDLAudio.h
+
+SDLThreading.o: SDLThreading.c SDLThreading.h
 
 .PHONY: clean
 clean:
