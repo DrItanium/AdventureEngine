@@ -24,10 +24,13 @@
 ;(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ;------------------------------------------------------------------------------
-; LoadEngine.clp - Runs the GLConstantConversion expert system
-; Written by Joshua Scoggins
+; Item.clp - Base class for all things that can be added to an inventory
+; 
+; Written by Joshua Scoggins 
+; Started on 3/6/2013
 ;------------------------------------------------------------------------------
-(clear)
-;relative to the root of the source directory
-(batch* "lib/cortex/Library.clp")
-(batch* "lib/dendrite/Library.clp")
+(defclass dendrite::Item
+ 			 "base class for all things that can be added to an inventory"
+          (is-a Interactable)
+			 (slot description (visibility public)))
+;------------------------------------------------------------------------------

@@ -1,3 +1,2 @@
-This folder contains the game logic for the adventure engine implementation of
-colossal cave adventure. It is a port of the original version written in
-fortran.
+This folder will eventually contain a simple game used as an example for how to
+use the adventure engine.
