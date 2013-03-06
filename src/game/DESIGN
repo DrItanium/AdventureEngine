@@ -1,0 +1,26 @@
+The design of the expert system implementation of Colossal Cave Adventure has
+to be broken down into several parts
+
+1) Taking user input
+2) Performing actions based on user input
+3) Informing the user of the result 
+4) Storing the world (backend)
+
+Taking user input is easy because one of the features of CLIPS (and expert
+systems in general) is that they are conversational. This makes taking in user
+input and informing the user a very simple task. Even the act of performing 
+actions based on user input is pretty easy.
+
+The harder part is the storing and encoding of the world. There are several
+aspects to this
+
+1) Converting the original information found in adven.dat into a knowledge
+representation
+2) Handling custom game events
+3) saving and loading games. 
+
+
+Of the above items the easiest is saving and loading games. This can be
+acomplished quite easily through the use of objects. The only problem is that
+my savegame format will be saving all of the instances to a plain text file.
+This will allow cheating to occur. 
