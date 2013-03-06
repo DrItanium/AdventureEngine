@@ -24,10 +24,12 @@
 ;(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ;------------------------------------------------------------------------------
-; LoadEngine.clp - Runs the GLConstantConversion expert system
-; Written by Joshua Scoggins
+; Player.clp - A basic player implementation 
+; 
+; Written by Joshua Scoggins 
+; Started on 3/6/2013
 ;------------------------------------------------------------------------------
-(clear)
-;relative to the root of the source directory
-(batch* "lib/cortex/Library.clp")
-(batch* "lib/dendrite/Library.clp")
+(defclass dendrite::Player
+ 			 "A basic player entity"
+          (is-a Entity))
+;------------------------------------------------------------------------------

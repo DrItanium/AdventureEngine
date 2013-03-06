@@ -24,10 +24,21 @@
 ;(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ;------------------------------------------------------------------------------
-; LoadEngine.clp - Runs the GLConstantConversion expert system
-; Written by Joshua Scoggins
+; Library.clp - Defines the dendrite module and loads all corresponding files.
+; 
+; Written by Joshua Scoggins 
+; Started on 3/6/2013
 ;------------------------------------------------------------------------------
-(clear)
-;relative to the root of the source directory
-(batch* "lib/cortex/Library.clp")
-(batch* "lib/dendrite/Library.clp")
+; Define the module
+;------------------------------------------------------------------------------
+(defmodule dendrite (export ?ALL))
+;------------------------------------------------------------------------------
+; Load the corresponding types and functions 
+;------------------------------------------------------------------------------
+(batch* "lib/dendrite/Interactable.clp")
+(batch* "lib/dendrite/Interaction.clp")
+(batch* "lib/dendrite/Event.clp")
+(batch* "lib/dendrite/Item.clp")
+(batch* "lib/dendrite/Entity.clp")
+(batch* "lib/dendrite/Player.clp")
+(batch* "lib/dendrite/Room.clp")
