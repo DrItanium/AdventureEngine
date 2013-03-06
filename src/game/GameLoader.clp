@@ -17,6 +17,7 @@
 
 (defmodule test-text-adventure 
            (import cortex ?ALL)
+			  (import dendrite ?ALL)
            (export ?ALL))
 
 (batch* "game/types/Loader.clp")
