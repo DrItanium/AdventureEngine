@@ -20,3 +20,5 @@
            (import cortex ?ALL)
            (export ?ALL))
 
+(batch* "game/types/Loader.clp")
+(batch* "game/logic/Loader.clp")
