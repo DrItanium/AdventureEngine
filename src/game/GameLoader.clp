@@ -18,6 +18,7 @@
 ;The Virtual Machine that interprets opcodes
 (defmodule colossal-cave-adventure
            (import cortex ?ALL)
+			  (import dendrite ?ALL)
            (export ?ALL))
 
 (batch* "game/types/Loader.clp")
