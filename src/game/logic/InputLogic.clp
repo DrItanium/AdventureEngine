@@ -24,13 +24,13 @@
 			=>
 			(printout t "> ")
 			(modify ?msg (action parse-input))
-			(assert (TextInput (input (explode$ (readline))))))
+			(assert (TextInput (input (readline)))))
 
 ;------------------------------------------------------------------------------
 (defrule test-text-adventure::quit-execution
 			(declare (salience 1))
 			?msg <- (message (action parse-input))
-			?f <- (TextInput (input exit))
+			?f <- (TextInput (input "exit"))
 			=>
 			(retract ?msg ?f)
 			(printout t "Exiting...." crlf)
@@ -39,7 +39,7 @@
 (defrule test-text-adventure::halt-execution
 			(declare (salience 1))
 			?msg <- (message (action parse-input))
-			?f <- (TextInput (input facts))
+			?f <- (TextInput (input "facts"))
 			=>
 			(facts)
 			(retract ?f)
