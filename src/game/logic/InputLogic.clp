@@ -22,6 +22,12 @@
 (defrule startup
          (initial-fact)
 			=>
+			(printout t "What is your name: "
+			(make-instance of GamePlayer 
+			 (name (readline))
+			 (health 100)
+			 (inventory apple floor-burger)
+			 (status healthy full))
 			(assert (message (action get-input))))
 ;------------------------------------------------------------------------------
 (defrule take-in-input-from-user
@@ -49,11 +55,21 @@
 			(retract ?f)
 			(modify ?msg (action get-input)))
 ;------------------------------------------------------------------------------
+(defrule print-status
+         (declare (salience 1))
+			?msg <- (message (action parse-input))
+			?f <- (TextInput (input "status"))
+			?o <- (object (is-a GamePlayer))
+			=>
+			(send ?o status)
+			(retract ?f)
+			(modify ?msg (action get-input)))
+;------------------------------------------------------------------------------
 (defrule printout-input
 			?msg <- (message (action parse-input))
 			?f <- (TextInput (input ?input))
 			=>
 			(modify ?msg (action get-input))
 			(retract ?f)
-			(printout t ?input crlf))
+			(printout t "Unknown input: " ?input crlf))
 ;------------------------------------------------------------------------------
