@@ -20,56 +20,63 @@
 ; Written by Joshua Scoggins
 ;------------------------------------------------------------------------------
 (defrule startup
-         (initial-fact)
+			(initial-fact)
 			=>
-			(printout t "What is your name: "
+			(printout t "Test Text Adventure Game" crlf
+						 "By Joshua Scoggins" crlf)
+			(printout t "What is your name: ")
 			(make-instance of GamePlayer 
-			 (player-name (readline))
-			 (health 100)
-			 (inventory apple floor-burger)
-			 (status healthy full))
+								(player-name (readline))
+								(health 100)
+								(inventory apple floor-burger)
+								(status healthy full))
 			(assert (message (action get-input))))
 ;------------------------------------------------------------------------------
 (defrule take-in-input-from-user
 			?msg <- (message (action get-input))
 			=>
 			(printout t "> ")
-			(modify ?msg (action parse-input))
-			(assert (TextInput (input (readline)))))
+			(modify ?msg (action parse-input)
+					  (arguments (explode$ (readline)))))
 ;------------------------------------------------------------------------------
 (defrule quit-execution
 			(declare (salience 1))
-			?msg <- (message (action parse-input))
-			?f <- (TextInput (input "exit"))
+			?msg <- (message (action parse-input)
+								  (arguments exit $?))
 			=>
-			(retract ?msg ?f)
+			(retract ?msg)
 			(printout t "Exiting...." crlf)
 			(exit))
 ;------------------------------------------------------------------------------
 (defrule halt-execution
 			(declare (salience 1))
-			?msg <- (message (action parse-input))
-			?f <- (TextInput (input "facts"))
+			?msg <- (message (action parse-input)
+								  (arguments facts $?))
 			=>
 			(facts)
-			(retract ?f)
-			(modify ?msg (action get-input)))
+			(modify ?msg (action get-input) (arguments)))
 ;------------------------------------------------------------------------------
 (defrule print-status
-         (declare (salience 1))
-			?msg <- (message (action parse-input))
-			?f <- (TextInput (input "status"))
+			(declare (salience 1))
+			?msg <- (message (action parse-input)
+								  (arguments status $?))
 			?o <- (object (is-a GamePlayer))
 			=>
 			(send ?o status)
-			(retract ?f)
+			(modify ?msg (action get-input) (arguments)))
+;------------------------------------------------------------------------------
+(defrule restart-input
+			"If no input is provided then we go back immediately without printing"
+			(declare (salience 1))
+			?msg <- (message (action parse-input)
+								  (arguments))
+			=>
 			(modify ?msg (action get-input)))
 ;------------------------------------------------------------------------------
 (defrule printout-input
-			?msg <- (message (action parse-input))
-			?f <- (TextInput (input ?input))
+			?msg <- (message (action parse-input)
+								  (arguments $?input))
 			=>
-			(modify ?msg (action get-input))
-			(retract ?f)
-			(printout t "Unknown input: " ?input crlf))
+			(modify ?msg (action get-input) (arguments))
+			(printout t "Unknown input: " (implode$ ?input) crlf))
 ;------------------------------------------------------------------------------
