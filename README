@@ -12,4 +12,6 @@ input handling, sound playing, and drawing to the screen.
 The src folder contains the C source code that clips interacts with. The game
 folder contains all of the types and game logic that are written within CLIPS
 
+Unless otherwise stated, the engine code is licensed under the BSD license.
+
 
