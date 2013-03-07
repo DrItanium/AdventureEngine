@@ -28,7 +28,7 @@
 			 (message-handler status primary))
 ;------------------------------------------------------------------------------
 (defmessage-handler GamePlayer status primary ()
- (printout t "Name: " ?self:name crlf
+ (printout t "Name: " ?self:player-name crlf
              "Health: " ?self:health crlf
 				 "Status: " (implode$ ?self:status) crlf
              "Inventory: " (implode$ ?self:inventory) crlf))
