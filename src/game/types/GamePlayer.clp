@@ -23,7 +23,7 @@
           "An extension of the base player class which is specific to the game"
 			 (is-a Player)
 			 (slot health (type INTEGER) (range 0 ?VARIABLE))
-			 (slot name (type SYMBOL STRING))
+			 (slot player-name (type SYMBOL STRING))
 			 (multislot status)
 			 (message-handler status primary))
 ;------------------------------------------------------------------------------

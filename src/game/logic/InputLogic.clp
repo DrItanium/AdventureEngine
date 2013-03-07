@@ -24,7 +24,7 @@
 			=>
 			(printout t "What is your name: "
 			(make-instance of GamePlayer 
-			 (name (readline))
+			 (player-name (readline))
 			 (health 100)
 			 (inventory apple floor-burger)
 			 (status healthy full))
