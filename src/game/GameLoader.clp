@@ -15,7 +15,8 @@
 ;along with this program; if not, write to the Free Software
 ;Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
-(defmodule test-text-adventure 
+;Use the MAIN module because we don't need separate modules for this
+(defmodule MAIN 
            (import cortex ?ALL)
 			  (import dendrite ?ALL)
            (export ?ALL))

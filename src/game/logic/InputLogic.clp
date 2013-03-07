@@ -19,15 +19,19 @@
 ; 
 ; Written by Joshua Scoggins
 ;------------------------------------------------------------------------------
-(defrule test-text-adventure::take-in-input-from-user
+(defrule startup
+         (initial-fact)
+			=>
+			(assert (message (action get-input))))
+;------------------------------------------------------------------------------
+(defrule take-in-input-from-user
 			?msg <- (message (action get-input))
 			=>
 			(printout t "> ")
 			(modify ?msg (action parse-input))
 			(assert (TextInput (input (readline)))))
-
 ;------------------------------------------------------------------------------
-(defrule test-text-adventure::quit-execution
+(defrule quit-execution
 			(declare (salience 1))
 			?msg <- (message (action parse-input))
 			?f <- (TextInput (input "exit"))
@@ -36,7 +40,7 @@
 			(printout t "Exiting...." crlf)
 			(exit))
 ;------------------------------------------------------------------------------
-(defrule test-text-adventure::halt-execution
+(defrule halt-execution
 			(declare (salience 1))
 			?msg <- (message (action parse-input))
 			?f <- (TextInput (input "facts"))
@@ -45,7 +49,7 @@
 			(retract ?f)
 			(modify ?msg (action get-input)))
 ;------------------------------------------------------------------------------
-(defrule test-text-adventure::printout-input
+(defrule printout-input
 			?msg <- (message (action parse-input))
 			?f <- (TextInput (input ?input))
 			=>
