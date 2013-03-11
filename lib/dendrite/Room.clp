@@ -24,5 +24,18 @@
 ;(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ;------------------------------------------------------------------------------
-; Loader.clp - Loads all files in the io folder
+; Room.clp - A basic room implementation
+; 
+; Written by Joshua Scoggins 
+; Started on 3/6/2013
+;------------------------------------------------------------------------------
+(defclass dendrite::Room
+  "A basic player entity"
+  (is-a Entity)
+  (multislot valid-directions)
+  (message-handler describe-directions primary))
+;------------------------------------------------------------------------------
+(defmessage-handler dendrite::Room describe-directions primary ()
+ (printout t (format nil "Valid directions are: %s" 
+				  (implode$ ?self:valid-directions) crlf)))
 ;------------------------------------------------------------------------------

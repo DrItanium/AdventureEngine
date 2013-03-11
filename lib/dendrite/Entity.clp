@@ -24,19 +24,13 @@
 ;(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ;------------------------------------------------------------------------------
-; Library.clp - Defines the cortex module and loads all other corresponding
-; files.
+; Entity.clp - Base class of all things that have an inventory 
 ; 
 ; Written by Joshua Scoggins 
-; Started on 2/14/2013
+; Started on 3/6/2013
 ;------------------------------------------------------------------------------
-; Define the module
-;------------------------------------------------------------------------------
-(defmodule cortex (export ?ALL))
-;------------------------------------------------------------------------------
-; Load the corresponding types and functions 
-;------------------------------------------------------------------------------
-(batch* "lib/cortex/core/Loader.clp")
-(batch* "lib/cortex/io/Loader.clp")
-(batch* "lib/cortex/parsing/Loader.clp")
+(defclass dendrite::Entity
+  			 "Base class of all things that have an inventory"
+          (is-a Interactable)
+			 (multislot inventory (visibility public)))
 ;------------------------------------------------------------------------------

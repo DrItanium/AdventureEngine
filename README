@@ -4,5 +4,16 @@ branch under the GPLv2 since I am implementing the VM based off of the C++ code
 found at https://github.com/fabiensanglard/Another-World-Bytecode-Interpreter
 
 
+<<<<<<< HEAD
 This is a test of the adventure engine to see how plausible (and efficient) it
 is to implement a virtual machine as an expert system.
+=======
+Folder layout:
+native/ - contains all of the C code (including CLIPS)
+tools/ - contains tools used by the adventure engine in one way or another
+lib/ - contains all the functions, templates, and classes used by the adventure engine
+logic/ - contains all the rules for the different modules that make up the adventure engine
+init/ - contains a special module that contains all of the functions that
+increase maintainability of code over using raw CLIPS. This is always loaded
+first
+>>>>>>> master

@@ -1,3 +1,0 @@
-#ignore object files and the adventure-engine binary
-adventure-engine
-*.o

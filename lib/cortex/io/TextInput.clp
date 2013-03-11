@@ -24,10 +24,9 @@
 ;(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ;------------------------------------------------------------------------------
-; LoadEngine.clp - Runs the GLConstantConversion expert system
-; Written by Joshua Scoggins
+; TextInput.clp - Loads all files in the io folder
 ;------------------------------------------------------------------------------
-(clear)
-;relative to the root of the source directory
-(batch* "lib/cortex/Library.clp")
-(batch* "game/GameLoader.clp")
+(deftemplate cortex::TextInput
+ "A template to represent a piece of input provided by the user"
+ (slot input (type STRING)))
+;------------------------------------------------------------------------------
