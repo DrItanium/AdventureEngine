@@ -24,13 +24,20 @@
 ;(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ;------------------------------------------------------------------------------
-; LoadEngine.clp - Runs the GLConstantConversion expert system
-; Written by Joshua Scoggins
+; LobeEvent.clp - Base class of all events to cause widgets to do things
+; 
+; Written by Joshua Scoggins 
+; Started on 3/11/2013
 ;------------------------------------------------------------------------------
-(clear)
-;relative to the root of the source directory
-(batch* "init/Library.clp")
+(defclass lobe::LobeEvent
+ "Base class of all events in the lobe library"
+ (is-a Object)
+ (slot event-name (type SYMBOL))
+ (slot function-to-call (type SYMBOL))
+ (message-handler raise-event primary))
 ;------------------------------------------------------------------------------
-(load-library cortex)
-(load-library dendrite)
-(load-library lobe)
+(defmessage-handler lobe::LobeEvent raise-event primary 
+ "Fires the given event"
+ ($?args)
+ (funcall ?self:function-to-call $?args))
+;------------------------------------------------------------------------------
