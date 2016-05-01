@@ -24,57 +24,22 @@
 ;(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ;------------------------------------------------------------------------------
-; The user input prompt, located in the prompt module
+; Basic initialization code, the MAIN module and must be included last
 ;------------------------------------------------------------------------------
-(defmodule prompt
+(defmodule MAIN
            (import constants defglobal)
-           (export defclass))
-
-(defclass prompt::input-state
-  (is-a USER)
-  (slot should-prompt
-        (type SYMBOL)
-        (allowed-symbols TRUE
-                         FALSE))
-  (slot prompt
-        (type STRING)
-        (storage local)
-        (visibility public)
-        (default ?NONE))
-  (slot raw-input
-        (type STRING)
-        (default-dynamic ""))
-  (multislot input
-             (visibility public)))
-
-(definstances prompt::initialization-of-input-state
-              (of input-state
-                  (prompt "> ")))
-
-(defrule prompt::read-input
-         "Read input from the end user"
-         ?f <- (object (is-a input-state)
-                       (should-prompt TRUE)
-                       (prompt ?prompt))
+           (export ?ALL))
+(defrule MAIN::startup
+         (declare (salience ?*absolute-first-priority*))
          =>
-         (printout ?*router-out* ?prompt tab)
-         (modify-instance ?f 
-                          (should-prompt FALSE)
-                          (raw-input (bind ?rinput (readline)))
-                          (input (explode$ ?rinput))))
+         (printout ?*router-out* 
+                   ?*engine-boot-prompt* crlf)
+         (focus USER-INPUT))
 
-(defrule prompt::core-keyword:quit
-         ?f <- (object (is-a input-state)
-                       (should-prompt FALSE)
-                       (input quit))
+(defrule MAIN::shutdown 
+         (declare (salience ?*absolute-last-priority*))
          =>
-         (unmake-instance ?f))
-(defrule prompt::reset-input
-         (declare (salience -1))
-         ?f <- (object (is-a input-state)
-                       (should-prompt FALSE))
-         =>
-         (modify-instance ?f 
-                          (should-prompt TRUE)))
-
+         (printout ?*router-out*
+                   ?*engine-shutdown-message* crlf))
+                 
 

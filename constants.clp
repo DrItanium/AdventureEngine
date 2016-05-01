@@ -1,3 +1,4 @@
+;------------------------------------------------------------------------------
 ;The Adventure Engine
 ;Copyright (c) 2012-2016, Joshua Scoggins 
 ;All rights reserved.
@@ -24,57 +25,13 @@
 ;(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ;------------------------------------------------------------------------------
-; The user input prompt, located in the prompt module
+; Constants that are usefule everywhere
 ;------------------------------------------------------------------------------
-(defmodule prompt
-           (import constants defglobal)
-           (export defclass))
-
-(defclass prompt::input-state
-  (is-a USER)
-  (slot should-prompt
-        (type SYMBOL)
-        (allowed-symbols TRUE
-                         FALSE))
-  (slot prompt
-        (type STRING)
-        (storage local)
-        (visibility public)
-        (default ?NONE))
-  (slot raw-input
-        (type STRING)
-        (default-dynamic ""))
-  (multislot input
-             (visibility public)))
-
-(definstances prompt::initialization-of-input-state
-              (of input-state
-                  (prompt "> ")))
-
-(defrule prompt::read-input
-         "Read input from the end user"
-         ?f <- (object (is-a input-state)
-                       (should-prompt TRUE)
-                       (prompt ?prompt))
-         =>
-         (printout ?*router-out* ?prompt tab)
-         (modify-instance ?f 
-                          (should-prompt FALSE)
-                          (raw-input (bind ?rinput (readline)))
-                          (input (explode$ ?rinput))))
-
-(defrule prompt::core-keyword:quit
-         ?f <- (object (is-a input-state)
-                       (should-prompt FALSE)
-                       (input quit))
-         =>
-         (unmake-instance ?f))
-(defrule prompt::reset-input
-         (declare (salience -1))
-         ?f <- (object (is-a input-state)
-                       (should-prompt FALSE))
-         =>
-         (modify-instance ?f 
-                          (should-prompt TRUE)))
-
-
+(defmodule constants
+           (export defglobal))
+(defglobal constants
+           ?*absolute-first-priority* = 10000
+           ?*absolute-last-priority* = -10000
+           ?*router-out* = t
+           ?*engine-boot-prompt* = "Welcome to the adventure engine"
+           ?*engine-shutdown-message* = "Shutting down!")
