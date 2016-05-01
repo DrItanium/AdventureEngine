@@ -69,16 +69,40 @@
          (modify-instance ?f 
                           (should-prompt FALSE)
                           (processed-input FALSE)
-                          (raw-input (bind ?rinput (readline)))
+                          (raw-input (string-trim (bind ?rinput
+                                                        (readline))))
                           (input (explode$ ?rinput))))
 
 (defrule prompt::core-keyword:quit
-         (declare (salience ?*before-normal-priority*))
+         (declare (salience ?*absolute-first-priority*))
          ?f <- (object (is-a input-state)
                        (should-prompt FALSE)
                        (input quit))
          =>
          (unmake-instance ?f))
+
+(defrule prompt::core-keyword:save
+         (declare (salience ?*absolute-first-priority*))
+         ?f <- (object (is-a input-state)
+                       (should-prompt FALSE)
+                       (input save ?path))
+         =>
+         (modify-instance ?f 
+                          (processed-input TRUE))
+         ;TODO: insert save code here
+         (printout ?*router-out* 
+                   tab "Successfully saved state to " ?path crlf))
+
+(defrule prompt::core-keyword:load
+         (declare (salience ?*absolute-first-priority*))
+         ?f <- (object (is-a input-state)
+                       (should-prompt FALSE)
+                       (input load ?path))
+         =>
+         (modify-instance ?f (processed-input TRUE))
+         ;TODO: insert load code here
+         (printout ?*router-out* 
+                   tab "Successfully loaded state from " ?path crlf))
 
 (defrule prompt::unknown-keyword
          "This is a fallthrough state when it wasn't possible to process the input with another rule"
