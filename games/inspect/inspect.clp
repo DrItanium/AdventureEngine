@@ -1,5 +1,5 @@
 ;------------------------------------------------------------------------------
-;The Adventure Engine
+;The Adventure Engine 
 ;Copyright (c) 2012-2016, Joshua Scoggins 
 ;All rights reserved.
 ;
@@ -25,13 +25,19 @@
 ;(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ;------------------------------------------------------------------------------
-; Defines the game order used by the MAIN module when loading the focus stack
+; Inspect.clp - a simple inspect the room game
 ;------------------------------------------------------------------------------
-(defmodule configuration
-           (export defglobal 
-                   startup-modules))
+(defmodule pre-prompt
+           (import constants defglobal router-out))
+(defrule pre-prompt::print-objectives
+         =>
+         (printout ?*router-out* 
+                   "Objective: Inspect the contents of the room" crlf))
+(defmodule post-prompt
+           (import constants defglobal router-out))
+(defrule post-prompt::say-thanks
+         =>
+         (printout ?*router-out*
+                   "Thanks for playing!" crlf))
+           
 
-(defglobal configuration
-           ?*startup-modules* = (create$ pre-prompt ; this will get executed first before the prompt shows up
-                                         prompt
-                                         post-prompt))
