@@ -28,8 +28,8 @@
 ;------------------------------------------------------------------------------
 (defmodule configuration
            (export defglobal 
-                   ?*startup-modules*))
+                   startup-modules))
 
 (defglobal configuration
-           ?*startup-modules* = (create$ pre-prompt
+           ?*startup-modules* = (create$ ;pre-prompt ; this will get executed first before the prompt shows up
                                          prompt))

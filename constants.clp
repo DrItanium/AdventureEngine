@@ -37,5 +37,4 @@
            ?*router-out* = t
            ?*engine-boot-prompt* = "Welcome to the adventure engine"
            ?*engine-shutdown-message* = "Shutting down!"
-           ?*unknown-input-message* = "Unknown input provided"
            )

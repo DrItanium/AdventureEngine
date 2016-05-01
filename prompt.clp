@@ -81,6 +81,29 @@
          =>
          (unmake-instance ?f))
 
+(defrule prompt::core-keyword:save:no-args
+         (declare (salience ?*absolute-first-priority*))
+         ?f <- (object (is-a input-state)
+                       (should-prompt FALSE)
+                       (input save))
+         =>
+         (modify-instance ?f 
+                          (processed-input TRUE))
+         ;TODO: insert save code here
+         (printout ?*router-out*
+                   tab "The save command requires a path to save to" crlf))
+(defrule prompt::core-keyword:save:too-many-arguments
+         (declare (salience ?*absolute-first-priority*))
+         ?f <- (object (is-a input-state)
+                       (should-prompt FALSE)
+                       (input save ? ? $?))
+         =>
+         (modify-instance ?f 
+                          (processed-input TRUE))
+         ;TODO: insert save code here
+         (printout ?*router-out* 
+                   tab "Too many inputs provided to the save command" crlf))
+
 (defrule prompt::core-keyword:save
          (declare (salience ?*absolute-first-priority*))
          ?f <- (object (is-a input-state)
@@ -92,6 +115,28 @@
          ;TODO: insert save code here
          (printout ?*router-out* 
                    tab "Successfully saved state to " ?path crlf))
+
+(defrule prompt::core-keyword:load:no-arguments
+         (declare (salience ?*absolute-first-priority*))
+         ?f <- (object (is-a input-state)
+                       (should-prompt FALSE)
+                       (input load))
+         =>
+         (modify-instance ?f 
+                          (processed-input TRUE))
+         (printout ?*router-out*
+                   tab "the load command requires a path" crlf))
+
+(defrule prompt::core-keyword:load:too-many-arguments
+         (declare (salience ?*absolute-first-priority*))
+         ?f <- (object (is-a input-state)
+                       (should-prompt FALSE)
+                       (input load ? ? $?))
+         =>
+         (modify-instance ?f 
+                          (processed-input TRUE))
+         (printout ?*router-out*
+                   tab "too many options provided to the load command" crlf))
 
 (defrule prompt::core-keyword:load
          (declare (salience ?*absolute-first-priority*))
@@ -113,7 +158,7 @@
                  (raw-input ?input))
          =>
          (printout ?*router-out* 
-                   tab ?*unknown-input-message* " \"" ?input "\"" crlf))
+                   tab "Unknown input " ?input crlf))
 
 
 (defrule prompt::reset-input

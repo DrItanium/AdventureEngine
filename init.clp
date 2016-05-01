@@ -27,20 +27,24 @@
 ; Basic initialization code, the MAIN module and must be included last
 ;------------------------------------------------------------------------------
 (defmodule MAIN
-           (import constants defglobal ?ALL)
-           (import configuration defglobal ?*startup-modules*)
+           (import constants 
+                   defglobal 
+                   ?ALL)
+           (import configuration 
+                   defglobal 
+                   startup-modules)
            (export ?ALL))
+
 (defrule MAIN::startup
          (declare (salience ?*absolute-first-priority*))
          =>
          (printout ?*router-out* 
                    ?*engine-boot-prompt* crlf)
-         (focus ?*startup-modules*))
+         (focus (expand$ ?*startup-modules*)))
 
 (defrule MAIN::shutdown 
          (declare (salience ?*absolute-last-priority*))
          =>
          (printout ?*router-out*
                    ?*engine-shutdown-message* crlf))
-                 
 
