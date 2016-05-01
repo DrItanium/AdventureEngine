@@ -25,18 +25,41 @@
 ;(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ;------------------------------------------------------------------------------
-; Core module
+; The concept of a world for a player to explore
 ;------------------------------------------------------------------------------
-(defmodule core
-           (export defclass 
-                   thing))
+(defmodule world
+           (import constants defglobal ?ALL)
+           (import core defclass thing))
 
-(defclass core::thing
-          "Base class of everything"
-          (is-a USER)
-          (slot description
+(defclass world::room
+          "A place that contains items and can be exited from one of the four cardinal directions"
+          (is-a thing)
+          (multislot contents)
+          ; TODO: eventually implement a description of the door
+          (slot north
+                (type INSTANCE
+                      SYMBOL)
                 (visibility public)
-                (type STRING))
-          (slot title
+                (allowed-classes room)
+                (allowed-symbols FALSE))
+          (slot south
+                (type INSTANCE
+                      SYMBOL)
                 (visibility public)
-                (type STRING)))
+                (allowed-classes room)
+                (allowed-symbols FALSE))
+          (slot east 
+                (type INSTANCE
+                      SYMBOL)
+                (visibility public)
+                (allowed-classes room)
+                (allowed-symbols FALSE))
+          (slot west
+                (type INSTANCE
+                      SYMBOL)
+                (visibility public)
+                (allowed-classes room)
+                (allowed-symbols FALSE)))
+
+
+
