@@ -24,23 +24,12 @@
 ;(INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 ;SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 ;------------------------------------------------------------------------------
-; Basic initialization code, the MAIN module and must be included last
+; Defines the game order used by the MAIN module when loading the focus stack
 ;------------------------------------------------------------------------------
-(defmodule MAIN
-           (import constants defglobal ?ALL)
-           (import configuration defglobal ?*startup-modules*)
-           (export ?ALL))
-(defrule MAIN::startup
-         (declare (salience ?*absolute-first-priority*))
-         =>
-         (printout ?*router-out* 
-                   ?*engine-boot-prompt* crlf)
-         (focus ?*startup-modules*))
+(defmodule configuration
+           (export defglobal 
+                   ?*startup-modules*))
 
-(defrule MAIN::shutdown 
-         (declare (salience ?*absolute-last-priority*))
-         =>
-         (printout ?*router-out*
-                   ?*engine-shutdown-message* crlf))
-                 
-
+(defglobal configuration
+           ?*startup-modules* = (create$ pre-prompt
+                                         prompt))
