@@ -1,3 +1,4 @@
+;------------------------------------------------------------------------------
 ;The Adventure Engine
 ;Copyright (c) 2012-2016, Joshua Scoggins 
 ;All rights reserved.
