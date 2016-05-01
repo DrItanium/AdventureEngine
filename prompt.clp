@@ -39,6 +39,10 @@
         (type SYMBOL)
         (allowed-symbols TRUE
                          FALSE))
+  (slot processed-input
+        (type SYMBOL)
+        (allowed-symbols FALSE
+                         TRUE))
   (slot prompt
         (type STRING)
         (storage local)
@@ -56,6 +60,7 @@
 
 (defrule prompt::read-input
          "Read input from the end user"
+         (declare (salience ?*absolute-first-priority*))
          ?f <- (object (is-a input-state)
                        (should-prompt TRUE)
                        (prompt ?prompt))
@@ -63,17 +68,32 @@
          (printout ?*router-out* ?prompt tab)
          (modify-instance ?f 
                           (should-prompt FALSE)
+                          (processed-input FALSE)
                           (raw-input (bind ?rinput (readline)))
                           (input (explode$ ?rinput))))
 
 (defrule prompt::core-keyword:quit
+         (declare (salience ?*before-normal-priority*))
          ?f <- (object (is-a input-state)
                        (should-prompt FALSE)
                        (input quit))
          =>
          (unmake-instance ?f))
-(defrule prompt::reset-input
+
+(defrule prompt::unknown-keyword
+         "This is a fallthrough state when it wasn't possible to process the input with another rule"
          (declare (salience ?*after-normal-priority*))
+         (object (is-a input-state)
+                 (should-prompt FALSE)
+                 (processed-input FALSE)
+                 (raw-input ?input))
+         =>
+         (printout ?*router-out* 
+                   tab ?*unknown-input-message* " \"" ?input "\"" crlf))
+
+
+(defrule prompt::reset-input
+         (declare (salience ?*absolute-last-priority*))
          ?f <- (object (is-a input-state)
                        (should-prompt FALSE))
          =>

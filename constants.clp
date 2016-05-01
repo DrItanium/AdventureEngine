@@ -32,7 +32,10 @@
 (defglobal constants
            ?*absolute-first-priority* = 10000
            ?*absolute-last-priority* = -10000
+           ?*before-normal-priority* = 1
            ?*after-normal-priority* = -1
            ?*router-out* = t
            ?*engine-boot-prompt* = "Welcome to the adventure engine"
-           ?*engine-shutdown-message* = "Shutting down!")
+           ?*engine-shutdown-message* = "Shutting down!"
+           ?*unknown-input-message* = "Unknown input provided"
+           )
