@@ -1,0 +1,32 @@
+In order to understand what the devil I'm implementing it may be a good idea to
+describe the ideas behind the overarching concept. There are several modules to
+the core AdventureEngine: constants, core, configuration, prompt, world, and
+main.
+world.
+<<*>>=
+<<constants>>
+<<core>>
+<<configuration>>
+<<prompt>>
+<<world>>
+<<main>>
+@
+
+The constants module is a very simple module, it acts to define constants that
+find extremely useful such as default salience values like [[-10000]] and
+[[10000]] as well as the default output router.
+<<constants>>=
+(defmodule constants
+ (export defglobal ?ALL))
+(defglobal constants
+           ?*absolute-first-priority* = 10000
+           ?*absolute-last-priority* = -10000
+           ?*before-normal-priority* = 1
+           ?*after-normal-priority* = -1
+           ?*router-out* = t
+           ?*engine-boot-prompt* = "Welcome to the adventure engine"
+           ?*engine-shutdown-message* = "Shutting down!"
+		   )
+@
+
+
