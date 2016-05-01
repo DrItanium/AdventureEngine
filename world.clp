@@ -29,37 +29,53 @@
 ;------------------------------------------------------------------------------
 (defmodule world
            (import constants defglobal ?ALL)
-           (import core defclass thing))
+           (import core defclass thing)
+           (export defclass 
+                   item
+                   room
+                   player))
+
+(defclass world::player
+  "The inventory container that the player uses / self"
+  (is-a thing)
+  (multislot items
+             (type INSTANCE)
+             (allowed-classes item)
+             (visibility public)))
+
+(defclass world::item
+  "An thing that can be moved around"
+  (is-a thing))
 
 (defclass world::room
-          "A place that contains items and can be exited from one of the four cardinal directions"
-          (is-a thing)
-          (multislot contents)
-          ; TODO: eventually implement a description of the door
-          (slot north
-                (type INSTANCE
-                      SYMBOL)
-                (visibility public)
-                (allowed-classes room)
-                (allowed-symbols FALSE))
-          (slot south
-                (type INSTANCE
-                      SYMBOL)
-                (visibility public)
-                (allowed-classes room)
-                (allowed-symbols FALSE))
-          (slot east 
-                (type INSTANCE
-                      SYMBOL)
-                (visibility public)
-                (allowed-classes room)
-                (allowed-symbols FALSE))
-          (slot west
-                (type INSTANCE
-                      SYMBOL)
-                (visibility public)
-                (allowed-classes room)
-                (allowed-symbols FALSE)))
+  "A place that contains items and can be exited from one of the four cardinal directions"
+  (is-a thing)
+  (multislot contents)
+  ; TODO: eventually implement a description of the door
+  (slot north
+        (type INSTANCE
+              SYMBOL)
+        (visibility public)
+        (allowed-classes room)
+        (allowed-symbols FALSE))
+  (slot south
+        (type INSTANCE
+              SYMBOL)
+        (visibility public)
+        (allowed-classes room)
+        (allowed-symbols FALSE))
+  (slot east 
+        (type INSTANCE
+              SYMBOL)
+        (visibility public)
+        (allowed-classes room)
+        (allowed-symbols FALSE))
+  (slot west
+        (type INSTANCE
+              SYMBOL)
+        (visibility public)
+        (allowed-classes room)
+        (allowed-symbols FALSE)))
 
 
 
