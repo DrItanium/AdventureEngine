@@ -29,4 +29,29 @@ find extremely useful such as default salience values like [[-10000]] and
 		   )
 @
 
+The AdventureEngine provides a world that the programmer defines things in.
+By default, all things are unrelated and have no clue about each other. A core
+concept in the AdventureEngine is the room. It is defined as having a set of
+things contained with in it. 
+
+The core module contains default abstract concepts used. Especially the base
+type [[thing]]. A thing is the base type of all objects that interact with the
+world defined by the adventure engine. By default, a thing has a description
+and a title. 
+
+<<core>>=
+(defmodule core
+ (export defclass
+  thing))
+(defclass core::thing
+ "Base class of everything"
+ (is-a USER)
+ (slot description
+  (visibility public)
+  (type STRING))
+ (slot title
+  (visibility public)
+  (type STRING)))
+@
+
 
