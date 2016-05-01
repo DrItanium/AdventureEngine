@@ -27,8 +27,11 @@
 ; The user input prompt, located in the prompt module
 ;------------------------------------------------------------------------------
 (defmodule prompt
-           (import constants defglobal)
-           (export defclass))
+           (import constants 
+                   defglobal 
+                   ?ALL)
+           (export defclass 
+                   input-state))
 
 (defclass prompt::input-state
   (is-a USER)
@@ -70,7 +73,7 @@
          =>
          (unmake-instance ?f))
 (defrule prompt::reset-input
-         (declare (salience -1))
+         (declare (salience ?*after-normal-priority*))
          ?f <- (object (is-a input-state)
                        (should-prompt FALSE))
          =>

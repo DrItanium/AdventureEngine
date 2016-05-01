@@ -28,10 +28,11 @@
 ; Constants that are usefule everywhere
 ;------------------------------------------------------------------------------
 (defmodule constants
-           (export defglobal))
+           (export defglobal ?ALL))
 (defglobal constants
            ?*absolute-first-priority* = 10000
            ?*absolute-last-priority* = -10000
+           ?*after-normal-priority* = -1
            ?*router-out* = t
            ?*engine-boot-prompt* = "Welcome to the adventure engine"
            ?*engine-shutdown-message* = "Shutting down!")
