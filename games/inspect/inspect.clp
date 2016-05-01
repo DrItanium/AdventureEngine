@@ -27,6 +27,8 @@
 ;------------------------------------------------------------------------------
 ; Inspect.clp - a simple inspect the room game
 ;------------------------------------------------------------------------------
+; Required module implementations
+;------------------------------------------------------------------------------
 (defmodule pre-prompt
            (import constants defglobal router-out))
 (defrule pre-prompt::print-objectives
@@ -39,5 +41,104 @@
          =>
          (printout ?*router-out*
                    "Thanks for playing!" crlf))
-           
+
+;------------------------------------------------------------------------------
+
+(defmodule game 
+           (import constants ?ALL)
+           (import core ?ALL)
+           (import world ?ALL)
+           (import prompt defclass input-state))
+(definstances game::room-and-items
+              (self of player)
+              (entry of room 
+                     (title "")
+                     (description "A non descript room")))
+
+(defrule game::handle-look-keyword:no-extra-input
+         ?f <- (object (is-a input-state)
+                       (should-prompt FALSE)
+                       (processed-input FALSE)
+                       (input look))
+         (object (is-a player)
+                 (name [self])
+                 (current-room ?room))
+         (object (is-a room)
+                 (name ?room)
+                 (description ?description))
+         =>
+         (modify-instance ?f
+                          (processed-input TRUE))
+         (printout ?*router-out* 
+                   "You are in a " ?description crlf))
+
+(defrule game::handle-go-keyword
+         ?f <- (object (is-a input-state)
+                       (should-prompt FALSE)
+                       (processed-input FALSE)
+                       (input go ?direction))
+         =>
+         (modify-instance ?f (processed-input TRUE))
+         (assert (go ?direction)))
+(defrule game::go-north
+         ?f <- (go north)
+         ?p <- (object (is-a player)
+                       (name [self])
+                       (current-room ?room))
+         (object (is-a room)
+                 (name ?room)
+                 (north ?north))
+         =>
+         (retract ?f)
+         (assert (go to room north ?north)))
+
+
+
+(defrule game::go-south
+         ?f <- (go south)
+         ?p <- (object (is-a player)
+                       (name [self])
+                       (current-room ?room))
+         (object (is-a room)
+                 (name ?room)
+                 (south ?south))
+         =>
+         (retract ?f)
+         (assert (go to room south ?south)))
+(defrule game::go-west
+         ?f <- (go west)
+         ?p <- (object (is-a player)
+                       (name [self])
+                       (current-room ?room))
+         (object (is-a room)
+                 (name ?room)
+                 (west ?west))
+         =>
+         (retract ?f)
+         (assert (go to room west ?west)))
+(defrule game::go-east
+         ?f <- (go east)
+         ?p <- (object (is-a player)
+                       (name [self])
+                       (current-room ?room))
+         (object (is-a room)
+                 (name ?room)
+                 (east ?east))
+         =>
+         (retract ?f)
+         (assert (go to room east ?east)))
+
+(defrule game::go-to-room:nope
+         ?f <- (go to room ?dir FALSE)
+         =>
+         (retract ?f)
+         (printout ?*router-out* 
+                   "Can't go " ?dir " from this room!" crlf))
+
+(defrule game::go-to-room
+         ?f <- (go to room ? ?target&~FALSE)
+         =>
+         (retract ?f)
+         (modify-instance [self]
+                          (current-room ?target)))
 

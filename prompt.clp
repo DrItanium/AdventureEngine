@@ -72,7 +72,7 @@
                           (processed-input FALSE)
                           (raw-input (string-trim (bind ?rinput
                                                         (readline))))
-                          (input (explode$ ?rinput))))
+                          (input (explode$ (lowcase ?rinput)))))
 
 (defrule prompt::core-keyword:quit
          (declare (salience ?*absolute-first-priority*))
@@ -149,7 +149,13 @@
          ;TODO: insert load code here
          (printout ?*router-out* 
                    tab "Successfully loaded state from " ?path crlf))
-
+(defrule prompt::pass-input-to-game
+         (object (is-a input-state)
+                 (should-prompt FALSE)
+                 (processed-input FALSE))
+         =>
+         ; jump into the game to process the input
+         (focus game))
 (defrule prompt::unknown-keyword
          "This is a fallthrough state when it wasn't possible to process the input with another rule"
          (declare (salience ?*after-normal-priority*))

@@ -38,6 +38,11 @@
 (defclass world::player
   "The inventory container that the player uses / self"
   (is-a thing)
+  (slot current-room
+        (type INSTANCE)
+        (visibility public)
+        ;(allowed-classes room)
+        (default-dynamic [entry]))
   (multislot items
              (type INSTANCE)
              (allowed-classes item)
