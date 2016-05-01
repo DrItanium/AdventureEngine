@@ -29,25 +29,7 @@
 ;------------------------------------------------------------------------------
 (defmodule core
            (export defclass thing))
-(defclass core::thing
-          "Base class for all entities in the world, has a parent child relationship"
-          (is-a USER)
-          (slot parent
-                (type INSTANCE
-                      SYMBOL)
-                (allowed-classes thing)
-                (allowed-symbols FALSE)
-                (default-dynamic FALSE))
-          (multislot children
-                     (type INSTANCE)
-                     (allowed-classes thing))
-          (message-handler parent-is primary))
 
-(defmessage-handler thing parent-is primary
-                    (?value)
-                    (and ?self:parent
-                         (or (eq ?self:parent
-                                 ?value)
-                             (send ?self:parent 
-                                   parent-is 
-                                   ?value))))
+(defclass core::thing
+          "Base class of everything"
+          (is-a USER))
