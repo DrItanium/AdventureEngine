@@ -142,6 +142,7 @@
          ?f <- (go to room ? ?target&~FALSE)
          =>
          (retract ?f)
+         (printout ?*router-out* tab "Ok" crlf)
          (modify-instance [self]
                           (current-room ?target)))
 
@@ -208,30 +209,44 @@
                           (processed-input TRUE))
          (printout ?*router-out* 
                    tab "This is not an item in your inventory" crlf))
-
-(defrule game::list-rooms
+(defrule game::list-command
          ?f <- (object (is-a input-state)
                        (should-prompt FALSE)
                        (processed-input FALSE)
-                       (input list rooms))
+                       (input list ?group))
          =>
+         (modify-instance ?f
+                          (processed-input TRUE))
+         (assert (list ?group)))
+
+(defrule game::list-rooms
+         ?f <- (list rooms)
+         =>
+         (retract ?f)
          (printout ?*router-out*
                    tab "Currently defined rooms" crlf)
          (do-for-all-instances ((?r room))
                                TRUE
                                (printout ?*router-out*
                                          tab tab (instance-name ?r) crlf)))
+(defrule game::list-unknown
+         (declare (salience ?*after-normal-priority*))
+         ?f <- (list ?target)
+         =>
+         (retract ?f)
+         (printout ?*router-out*
+                   tab ?target " is not a valid item to list" crlf))
+
 (defrule game::new-room::with-title
          ?f <- (object (is-a input-state)
                        (should-prompt FALSE)
                        (processed-input FALSE)
                        (input new-room ?room-name&:(symbolp ?room-name)))
-
          =>
          (modify-instance ?f
                           (processed-input TRUE))
          (printout ?*router-out* 
-                   "Made a new blank room named: " 
+                   tab "Made a new blank room named: " 
                    (make-instance ?room-name of room) crlf))
 
 (defrule game::new-room
@@ -244,14 +259,34 @@
          (modify-instance ?f
                           (processed-input TRUE))
          (printout ?*router-out* 
-                   "Made a new blank room named: " 
+                   tab "Made a new blank room named: " 
                    (make-instance of room) crlf))
 
-(defrule game::set-title
+(defrule game::set-title:symbolp
          ?f <- (object (is-a input-state)
                        (should-prompt FALSE)
                        (processed-input FALSE)
-                       (input set-title ?room ?title))
+                       (input set-title 
+                              ?target&:(symbolp ?target)
+                              ?title))
+         (object (is-a room)
+                 (name ?room&:(eq (symbol-to-instance-name ?target)
+                                  ?room)))
+         =>
+         (modify-instance ?f
+                          (processed-input TRUE))
+         (modify-instance ?room
+                          (title ?title))
+         (printout ?*router-out*
+                   tab "Set " ?room "'s title to " ?title crlf))
+
+(defrule game::set-title:instancep
+         ?f <- (object (is-a input-state)
+                       (should-prompt FALSE)
+                       (processed-input FALSE)
+                       (input set-title 
+                              ?room&:(instancep ?room)
+                              ?title))
          (object (is-a room)
                  (name ?room))
          =>
@@ -260,5 +295,156 @@
          (modify-instance ?room
                           (title ?title))
          (printout ?*router-out*
-                   "Set " ?room " to " ?title crlf))
+                   tab "Set " ?room "'s title to " ?title crlf))
+
+(defrule game::parse-print-contents:symbolp
+         ?f <- (object (is-a input-state)
+                       (should-prompt FALSE)
+                       (processed-input FALSE)
+                       (input print ?instance&:(symbolp ?instance)))
+         =>
+         (modify-instance ?f
+                          (processed-input TRUE))
+         (assert (print (symbol-to-instance-name ?instance))))
+
+(defrule game::parse-print-contents
+         ?f <- (object (is-a input-state)
+                       (should-prompt FALSE)
+                       (processed-input FALSE)
+                       (input print ?instance&:(instancep ?instance)))
+         =>
+         (modify-instance ?f
+                          (processed-input TRUE))
+         (assert (print ?instance)))
+
+(defrule game::print-contents
+         ?f <- (print ?instance)
+         (test (instance-existp ?instance))
+         =>
+         (retract ?f)
+         (send ?instance print))
+
+(defrule game::print-contents:doesnt-exist
+         ?f <- (print ?instance)
+         (test (not (instance-existp ?instance)))
+         =>
+         (retract ?f)
+         (printout ?*router-out*
+                   tab ?instance " is not a defined instance" crlf))
+
+(defrule game::set-description:symbolp
+         ?f <- (object (is-a input-state)
+                       (should-prompt FALSE)
+                       (processed-input FALSE)
+                       (input set-description 
+                              ?target&:(symbolp ?target)
+                              ?description))
+         (object (is-a room)
+                 (name ?room&:(eq (symbol-to-instance-name ?target)
+                                  ?room)))
+         =>
+         (modify-instance ?f
+                          (processed-input TRUE))
+         (modify-instance ?room
+                          (description ?description))
+         (printout ?*router-out*
+                   tab "Set " ?room "'s description to " ?description crlf))
+
+(defrule game::set-description:instancep
+         ?f <- (object (is-a input-state)
+                       (should-prompt FALSE)
+                       (processed-input FALSE)
+                       (input set-description 
+                              ?room&:(instancep ?room)
+                              ?description))
+         (object (is-a room)
+                 (name ?room))
+         =>
+         (modify-instance ?f
+                          (processed-input TRUE))
+         (modify-instance ?room
+                          (description ?description))
+         (printout ?*router-out*
+                   tab "Set " ?room "'s description to " ?description crlf))
+
+(defrule game::parse:link-room-to-another-room
+         ?f <- (object (is-a input-state)
+                       (should-prompt FALSE)
+                       (processed-input FALSE)
+                       (input link
+                              ?room0 ?direction0
+                              to
+                              ?room1 ?direction1))
+         =>
+         (modify-instance ?f
+                          (processed-input TRUE))
+         (bind ?r0 
+               (if (symbolp ?room0) then
+                 (symbol-to-instance-name ?room0)
+                 else
+                 ?room0))
+         (bind ?r1
+               (if (symbolp ?room1) then
+                 (symbol-to-instance-name ?room1)
+                 else
+                 ?room1))
+         (assert (connect ?r0 to ?r1 via ?direction0)
+                 (connect ?r1 to ?r0 via ?direction1)))
+
+(defrule game::link-room-to-another-room:illegal-direction
+         (declare (salience ?*before-normal-priority*))
+         ?f <- (connect ? to ? via ?direction)
+         (test (neq ?direction north south east west))
+         =>
+         (retract ?f)
+         (printout ?*router-out*
+                   tab ?direction " is not a legal linkage direction" crlf))
+
+(defrule game::link-room-to-another-room:primary-room-is-bad
+         (declare (salience ?*before-normal-priority*))
+         ?f <- (connect ?bad-room to ? via ?)
+         (not (exists (object (is-a room)
+                              (name ?bad-room))))
+         =>
+         (retract ?f)
+         (printout ?*router-out*
+                   tab ?bad-room " is not a room" crlf))
+
+(defrule game::link-room-to-another-room:secondary-room-is-bad
+         (declare (salience ?*before-normal-priority*))
+         ?f <- (connect ? to ?bad-room via ?)
+         (not (exists (object (is-a room)
+                              (name ?bad-room))))
+         =>
+         (retract ?f)
+         (printout ?*router-out*
+                   tab ?bad-room " is not a room" crlf))
+
+(defrule game::link-room-to-another-room
+         ?f <- (connect ?curr to ?other via ?direction)
+         (object (is-a room)
+                 (name ?curr))
+         (object (is-a room)
+                 (name ?other))
+         =>
+         (retract ?f)
+         (send ?curr 
+               (sym-cat put- ?direction)
+               ?other))
+
+(defrule game::link-room-to-another-room
+         ?f <- (connect ?curr to ?other via ?direction)
+         (object (is-a room)
+                 (name ?curr))
+         (object (is-a room)
+                 (name ?other))
+         =>
+         (retract ?f)
+         (printout ?*router-out* 
+                   tab "linked " ?curr " to " ?other " via " ?direction " direction" crlf)
+         (send ?curr 
+               (sym-cat put- ?direction)
+               ?other))
+
+
 
