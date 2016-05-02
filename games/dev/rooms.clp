@@ -447,4 +447,28 @@
                ?other))
 
 
+(defrule game::save-game-instances
+         ?f <- (object (is-a input-state)
+                       (should-prompt FALSE)
+                       (processed-input FALSE)
+                       (input save ?path))
+         =>
+         (modify-instance ?f
+                          (processed-input TRUE))
+         (printout ?*router-out*
+                   tab "saved " 
+                   (save-instances ?path visible room item) 
+                   " rooms and items instances to " ?path crlf))
 
+(defrule game::load-game-instances
+         ?f <- (object (is-a input-state)
+                       (should-prompt FALSE)
+                       (processed-input FALSE)
+                       (input load ?path))
+         =>
+         (modify-instance ?f
+                          (processed-input TRUE))
+         (printout ?*router-out*
+                   tab "loaded " 
+                   (restore-instances ?path)
+                   " instances from " ?path crlf)
