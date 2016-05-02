@@ -82,5 +82,3 @@
         (allowed-classes room)
         (allowed-symbols FALSE)))
 
-
-

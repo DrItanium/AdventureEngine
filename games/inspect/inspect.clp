@@ -142,3 +142,67 @@
          (modify-instance [self]
                           (current-room ?target)))
 
+(defrule game::list-inventory
+         ?f <- (object (is-a input-state)
+                       (should-prompt FALSE)
+                       (processed-input FALSE)
+                       (input inventory))
+         (object (is-a player)
+                 (name [self])
+                 (items $?items))
+         =>
+         (printout ?*router-out*
+                   tab "Currently have in inventory:" crlf)
+         (progn$ (?item ?items)
+                 (printout ?*router-out*
+                           tab tab "- " (send ?item get-title) crlf))
+         (modify-instance ?f 
+                          (processed-input TRUE)))
+
+(defrule game::inspect-item
+         ?f <- (object (is-a input-state)
+                       (should-prompt FALSE)
+                       (processed-input FALSE)
+                       (input inspect ?item))
+         (object (is-a item)
+                 (title ?item)
+                 (description ?desc)
+                 (name ?n))
+         (object (is-a player)
+                 (name [self])
+                 (items $? ?n $?))
+         =>
+         (modify-instance ?f 
+                          (processed-input TRUE))
+         (printout ?*router-out* tab ?desc crlf))
+
+(defrule game::inspect-item:not-in-inventory
+         ?f <- (object (is-a input-state)
+                       (should-prompt FALSE)
+                       (processed-input FALSE)
+                       (input inspect ?item))
+         (object (is-a item)
+                 (title ?item)
+                 (name ?n))
+         (object (is-a player)
+                 (name [self])
+                 (items $?elements&:(not (member$ ?n ?elements))))
+         =>
+         (modify-instance ?f
+                          (processed-input TRUE))
+         (printout ?*router-out* 
+                   tab "This is not an item in your inventory" crlf))
+
+(defrule game::inspect-item:doesn't-exist
+         ?f <- (object (is-a input-state)
+                       (should-prompt FALSE)
+                       (processed-input FALSE)
+                       (input inspect ?item))
+         (not (exists (object (is-a item)
+                              (title ?item))))
+         =>
+         (modify-instance ?f
+                          (processed-input TRUE))
+         (printout ?*router-out* 
+                   tab "This is not an item in your inventory" crlf))
+

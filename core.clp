@@ -36,7 +36,7 @@
           (is-a USER)
           (slot description
                 (visibility public)
-                (type STRING))
+                (type LEXEME))
           (slot title
                 (visibility public)
-                (type STRING)))
+                (type LEXEME)))

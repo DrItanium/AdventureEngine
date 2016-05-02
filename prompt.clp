@@ -53,6 +53,7 @@
         (type STRING)
         (default-dynamic ""))
   (multislot input
+             (type LEXEME)
              (visibility public)))
 
 (definstances prompt::initialization-of-input-state
